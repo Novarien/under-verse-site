@@ -50,7 +50,7 @@
     async function testAPI() {
         try {
             showResult('🔄 Проверяем API...');
-            const response = await fetch('http://77.233.222.187/api/health');
+            const response = await fetch('https://77.233.222.187/api/health');
             const data = await response.json();
             showResult('✅ API РАБОТАЕТ!<br>' + data.status + ' - ' + data.message);
         } catch (error) {
@@ -61,7 +61,7 @@
     async function testAI() {
         try {
             showResult('🔄 Проверяем ИИ...');
-            const response = await fetch('http://77.233.222.187/api/ai/health');
+            const response = await fetch('https://77.233.222.187/api/ai/health');
             const data = await response.json();
             showResult('✅ ИИ ПОДКЛЮЧЕН!<br>' + data.message);
         } catch (error) {
@@ -80,7 +80,7 @@
                 magic: "Слабое исцеление"
             };
 
-            const response = await fetch('http://77.233.222.187/api/generate-character', {
+            const response = await fetch('https://77.233.222.187/api/generate-character', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -113,7 +113,7 @@
                 magic: "Слабое исцеление"
             };
 
-            const response = await fetch('http://77.233.222.187/api/generate-character', {
+            const response = await fetch('https://77.233.222.187/api/generate-character', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
