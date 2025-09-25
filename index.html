@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>UnderVerse RP - Тест</title>
+    <title>UnderVerse RP - Тест API</title>
     <style>
         body { 
             font-family: 'Comic Sans MS', cursive; 
@@ -11,27 +11,32 @@
             text-align: center; 
             padding: 50px;
         }
-        h1 { color: #4cc9f0; }
+        button { 
+            background: #4cc9f0; 
+            color: white; 
+            border: none; 
+            padding: 15px 30px; 
+            font-size: 18px; 
+            cursor: pointer;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
     <h1>UnderVerse RP</h1>
-    <p>Тестовая страница. Фаза 1.</p>
-    <p>Сайт работает на GitHub Pages!</p>
-    <button onclick="alert('Firebase скоро будет тут!')">Проверка кнопки</button>
-    <button onclick="testAPI()">Проверить подключение к API</button>
-
-<script src="js/api.js"></script>
-<script>
-async function testAPI() {
-    try {
-        const response = await fetch('http://77.233.222.187/api/health');
-        const data = await response.json();
-        alert(`API статус: ${data.status}\n${data.message}`);
-    } catch (error) {
-        alert('Ошибка подключения к API: ' + error.message);
+    <p>Тест подключения к API</p>
+    <button onclick="testAPI()">Проверить API</button>
+    
+    <script>
+    async function testAPI() {
+        try {
+            const response = await fetch('http://77.233.222.187/api/health');
+            const data = await response.json();
+            alert('✅ API РАБОТАЕТ!\nСтатус: ' + data.status + '\nСообщение: ' + data.message);
+        } catch (error) {
+            alert('❌ Ошибка подключения: ' + error.message);
+        }
     }
-}
-</script>
+    </script>
 </body>
 </html>
