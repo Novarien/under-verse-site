@@ -1,56 +1,101 @@
-<script>
-// Используем CORS proxy для обхода mixed content
-const API_BASE_URL = 'http://77.233.222.187';
-const CORS_PROXY = 'https://cors-anywhere.herokuapp.com';
-
-async function testAPI() {
-    try {
-        showResult('🔄 Проверяем API...');
-        const response = await fetch(`${CORS_PROXY}/${API_BASE_URL}/api/health`);
-        const data = await response.json();
-        showResult('✅ API РАБОТАЕТ!<br>Статус: ' + data.status);
-    } catch (error) {
-        showResult('❌ Ошибка API: ' + error.message, true);
-    }
-}
-
-async function testAI() {
-    try {
-        showResult('🔄 Проверяем ИИ...');
-        const response = await fetch(`${CORS_PROXY}/${API_BASE_URL}/api/ai/health`);
-        const data = await response.json();
-        showResult('✅ ИИ: ' + data.message);
-    } catch (error) {
-        showResult('❌ Ошибка ИИ: ' + error.message, true);
-    }
-}
-
-async function testCharacter() {
-    try {
-        showResult('🔄 Генерируем персонажа...');
-        
-        const testAnswers = {
-            personality: "Добрый и любопытный",
-            combat_style: "Дипломатия",
-            magic: "Слабое исцеление"
-        };
-        
-        const response = await fetch(`${CORS_PROXY}/${API_BASE_URL}/api/generate-character`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ answers: testAnswers })
-        });
-        
-        const data = await response.json();
-        if (data.success) {
-            showResult('✅ Персонаж создан!<br>Имя: ' + data.character.name);
-        } else {
-            showResult('❌ Ошибка: ' + data.message, true);
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>UnderVerse RP - Тест API</title>
+    <style>
+        body { 
+            font-family: 'Comic Sans MS', cursive; 
+            background: #1a1a2e; 
+            color: white; 
+            text-align: center; 
+            padding: 50px;
         }
-    } catch (error) {
-        showResult('❌ Ошибка: ' + error.message, true);
+        button { 
+            background: #4cc9f0; 
+            color: white; 
+            border: none; 
+            padding: 15px 30px; 
+            font-size: 18px; 
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 10px;
+        }
+        .result { 
+            margin: 20px; 
+            padding: 15px; 
+            background: rgba(255,255,255,0.1); 
+            border-radius: 10px; 
+        }
+    </style>
+</head>
+<body>
+    <h1>UnderVerse RP</h1>
+    <p>Тест подключения к API и ИИ</p>
+    
+    <button onclick="testAPI()">🔌 Проверить API</button>
+    <button onclick="testAI()">🤖 Проверить ИИ</button>
+    <button onclick="testCharacter()">🎭 Тест генерации персонажа</button>
+    
+    <div id="result" class="result">Здесь будут результаты</div>
+    
+    <script>
+    function showResult(message, isError = false) {
+        const resultDiv = document.getElementById('result');
+        resultDiv.innerHTML = message;
+        resultDiv.style.color = isError ? '#ff6b6b' : '#4cc9f0';
     }
-}
-</script>
+
+    async function testAPI() {
+        try {
+            showResult('🔄 Проверяем API...');
+            const response = await fetch('http://77.233.222.187/api/health');
+            const data = await response.json();
+            showResult('✅ API РАБОТАЕТ!<br>' + data.status + ' - ' + data.message);
+        } catch (error) {
+            showResult('❌ Ошибка API: ' + error.message, true);
+        }
+    }
+
+    async function testAI() {
+        try {
+            showResult('🔄 Проверяем ИИ...');
+            const response = await fetch('http://77.233.222.187/api/ai/health');
+            const data = await response.json();
+            showResult('✅ ИИ ПОДКЛЮЧЕН!<br>' + data.message);
+        } catch (error) {
+            showResult('❌ Ошибка ИИ: ' + error.message, true);
+        }
+    }
+
+    async function testCharacter() {
+        try {
+            showResult('🔄 Генерируем тестового персонажа...');
+            
+            const testAnswers = {
+                personality: "Добрый и любопытный",
+                combat_style: "Дипломатия",
+                magic: "Слабое исцеление"
+            };
+            
+            const response = await fetch('http://77.233.222.187/api/generate-character', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ answers: testAnswers })
+            });
+            
+            const data = await response.json();
+            if (data.success) {
+                showResult('✅ Персонаж создан!<br>Имя: ' + data.character.name);
+            } else {
+                showResult('❌ Ошибка генерации: ' + data.message, true);
+            }
+        } catch (error) {
+            showResult('❌ Ошибка: ' + error.message, true);
+        }
+    }
+    </script>
+</body>
+</html>
