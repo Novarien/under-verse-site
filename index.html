@@ -19,5 +19,19 @@
     <p>Тестовая страница. Фаза 1.</p>
     <p>Сайт работает на GitHub Pages!</p>
     <button onclick="alert('Firebase скоро будет тут!')">Проверка кнопки</button>
+    <button onclick="testAPI()">Проверить подключение к API</button>
+
+<script src="js/api.js"></script>
+<script>
+async function testAPI() {
+    try {
+        const response = await fetch('http://77.233.222.187/api/health');
+        const data = await response.json();
+        alert(`API статус: ${data.status}\n${data.message}`);
+    } catch (error) {
+        alert('Ошибка подключения к API: ' + error.message);
+    }
+}
+</script>
 </body>
 </html>
