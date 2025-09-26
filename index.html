@@ -27,6 +27,11 @@
             background: rgba(255,255,255,0.1); 
             border-radius: 10px; 
         }
+        img { 
+            max-width: 300px; 
+            margin-top: 10px; 
+            border-radius: 10px;
+        }
     </style>
 </head>
 <body>
@@ -70,11 +75,11 @@
 
     async function testCharacter() {
         try {
-            showResult('🔄 Генерируем тестового персонажа...');
+            showResult('🔄 Генерируем персонажа с изображением... (2-3 минуты)');
             
             const testAnswers = {
                 personality: "Добрый и любопытный",
-                combat_style: "Дипломатия",
+                combat_style: "Дипломатия", 
                 magic: "Слабое исцеление"
             };
             
@@ -88,7 +93,17 @@
             
             const data = await response.json();
             if (data.success) {
-                showResult('✅ Персонаж создан!<br>Имя: ' + data.character.name);
+                let resultHTML = '✅ Персонаж создан!<br>' + 
+                               'Имя: ' + data.character.name + '<br>' +
+                               'Тип души: ' + data.character.soul_type + '<br>' +
+                               'HP: ' + data.character.hp + '<br>' +
+                               'АУ: ' + data.character.au;
+                
+                if (data.image_data) {
+                    resultHTML += '<br><img src="data:image/png;base64,' + data.image_data + '">';
+                }
+                
+                showResult(resultHTML);
             } else {
                 showResult('❌ Ошибка генерации: ' + data.message, true);
             }
